@@ -1,0 +1,128 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    background-color: #182035;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+main {
+    padding: 2rem;
+    flex-grow: 1;
+}
+
+.search {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1rem;
+}
+
+#searchInput {
+    width: 50%;
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+#searchButton {
+    background-color: #182035;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-left: 1rem;
+}
+
+#searchButton:hover {
+    background-color: #151d33;
+}
+
+.results ul {
+    list-style: none;
+    padding: 1rem;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
+
+.results li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
+}
+
+.results li:last-child {
+    border-bottom: none;
+}
+
+.space-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-right: 1rem;
+}
+
+.space-participants {
+    font-size: 1rem;
+    color: #99b6ff;
+    margin-right: 1rem;
+}
+
+.space-link {
+    text-decoration: none;
+    background-image: linear-gradient(to right, #6b73ff, #000dff);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    transition: background-image 0.3s;
+}
+
+.space-link:hover {
+    background-image: linear-gradient(to right, #4c52ff, #000bde);
+}
+
+footer {
+    background-color: #182035;
+    color: #fff;
+    text-align: center;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+
+@media screen and (max-width: 768px) {
+    .search {
+        flex-direction: column;
+    }
+
+    #searchInput {
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    #searchButton {
+        margin-left: 0;
+    }
+}
+
