@@ -5,12 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Twitter Spaces Search</title>
     <link rel="stylesheet" href="/static/styles.css">
+
+  <script defer data-domain="findspace.live" src="https://plausible.io/js/script.js"></script>
+
+  
 </head>
 <body>
     <header>
-        <h1>Twitter Spaces Search</h1>
+        <a href="/" style="text-decoration: none; color: inherit">
+          <h1>
+            <span class="full-title">Twitter Spaces Search</span>
+            <span class="short-title">TSS</span>
+          </h1>
+        </a>
+        <a href="/whatarespaces" id="whatareSpacesLink">What are Spaces?</a>
     </header>
     <main>
+      <div class="maindiv">
         <section class="search">
             <label for="stateFilter">State:</label>
             <select id="stateFilter">
@@ -20,12 +31,17 @@
             </select>
             <input type="text" id="searchInput" placeholder="Search Twitter Spaces">
             <button id="searchButton">Search</button>
-            <!-- Add filter options here if needed -->
         </section>
         <section class="results">
             <ul id="resultsList"></ul>
         </section>
+      </div>
     </main>
+    <div id="notification" class="notification">
+        <div class="notification-content">
+            <p id="notificationMessage"></p>
+        </div>
+    </div>
     <footer>
         <p>&copy; 2023 Twitter Spaces Search. All rights reserved.</p>
     </footer>

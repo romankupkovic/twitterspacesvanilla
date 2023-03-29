@@ -1,4 +1,5 @@
 $(document).ready(function() {
+    loadGlobalCache();
     $('#searchButton').click(function() {
         let query = $('#searchInput').val();
         let stateFilter = $('#stateFilter').val();
@@ -6,58 +7,84 @@ $(document).ready(function() {
     });
 });
 
+$('#searchInput').keypress(function(event) {
+    if (event.which == 13) { 
+        event.preventDefault();
+        $('#searchButton').click();
+    }
+});
+
+function loadGlobalCache() {
+    $.ajax({
+        url: '/global_cache',
+        method: 'GET',
+        success: function(response) {
+            if (!response || response.length === 0) {
+                showNotification('No spaces found in top spaces.', 3000);
+                return;
+            }
+
+            renderResults({ data: response });
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            showNotification('Error fetching top spaces.', 3000);
+        }
+    });
+}
+
+
 function searchTwitterSpaces(query, stateFilter) {
     // Set the search button to a loading state
     $('#searchButton').prop('disabled', true).text('Loading...');
 
     let timeout = setTimeout(() => {
         $('#searchButton').prop('disabled', false).text('Search');
+        showNotification('Request timed out.', 3000);
     }, 4000);
 
     $.ajax({
         url: '/search',
         method: 'GET',
         data: {
-            query: query || 'e', // Use the query or 'a e i o u' if no query is provided
+            query: query || 'e',
             state: stateFilter,
-            'space.fields': 'id,creator_id,title,participant_count', // Include the id, creator_id, title, and participant_count fields
-            expansions: 'creator_id', // Include the creator_id expansion
-            max_results: 100 // Fetch 100 spaces
+            'space.fields': 'id,creator_id,title,participant_count',
+            expansions: 'creator_id',
+            max_results: 100
         },
         success: function(response) {
             clearTimeout(timeout);
 
             if (!response.data || response.data.length === 0) {
-                console.error('No spaces found in the response:', response);
+                showNotification('No spaces found.', 3000);
                 $('#searchButton').prop('disabled', false).text('Search');
                 return;
             }
 
             let spaces = response.data;
             spaces.sort((a, b) => b.participant_count - a.participant_count);
-
-            // Limit the results to 10 spaces with the highest participant_count
             spaces = spaces.slice(0, 50);
 
             renderResults({ data: spaces, includes: response.includes });
-            // Reset the search button state
             $('#searchButton').prop('disabled', false).text('Search');
         },
         error: function(jqXHR, textStatus, errorThrown) {
             clearTimeout(timeout);
 
-            console.error('Error fetching data:', textStatus, errorThrown);
-            console.error('Response:', jqXHR.responseText);
-            // Reset the search button state
+            showNotification('Error fetching data.', 3000);
             $('#searchButton').prop('disabled', false).text('Search');
         }
     });
 }
 
+function showNotification(message, duration = 3000) {
+    $("#notificationMessage").text(message);
+    $("#notification").fadeIn(200);
 
-
-
-
+    setTimeout(function () {
+        $("#notification").fadeOut(200);
+    }, duration);
+}
 
 function renderResults(response) {
     $('#resultsList').empty();
@@ -65,26 +92,21 @@ function renderResults(response) {
     let spaces = response.data;
     let users = response.includes?.users;
 
-    if (!users) {
-        console.error('No users found in the response:', response);
-        return;
-    }
-
     spaces.forEach(space => {
-        let creatorId = space.creator_id;
-        let creator = users.find(user => user.id === creatorId);
+        let creator = users ? users.find(user => user.id === space.creator_id) : null;
+        let creatorUsername = creator ? creator.username : (space.creator_username ? space.creator_username : ' ');
 
-        if (!creator) {
-            console.error(`Creator not found for space with creator_id: ${creatorId}`);
+        if (!creatorUsername) {
+            showNotification(`Creator not found for space with creator_id: ${space.creator_id}`, 3000);
             return;
         }
 
         let listItem = $('<li>');
-        
-        let spaceTitle = $('<span>').addClass('space-title').text(`${space.title} by @${creator.username}`);
+
+        let spaceTitle = $('<span>').addClass('space-title').text(`${space.title} by @${creatorUsername}`);
         listItem.append(spaceTitle);
-        
-        let spaceParticipants = $('<span>').addClass('space-participants').text(`${space.participant_count} participants`);
+
+        let spaceParticipants = $('<span>').addClass('space-participants').text(`${space.participant_count} 👤`);
         listItem.append(spaceParticipants);
 
         let spaceLink = $('<a>')
@@ -96,4 +118,7 @@ function renderResults(response) {
 
         $('#resultsList').append(listItem);
     });
+
+    showNotification('Results updated.', 3000);
 }
+

@@ -11,6 +11,8 @@ replit = "^3.2.4"
 Flask = "^2.2.0"
 urllib3 = "^1.26.12"
 Flask-Cors = "^3.0.10"
+selenium = "^4.8.3"
+portalocker = "2.7.0"
 
 [tool.poetry.dev-dependencies]
 debugpy = "^1.6.2"
