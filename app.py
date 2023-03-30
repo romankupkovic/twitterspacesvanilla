@@ -82,7 +82,7 @@ def search():
   response_data = response.json()
 
   if response_data['meta']['result_count'] == 0:
-    return jsonify()
+    return jsonify(response_data)
 
   for space in response_data['data']:
     cached_space = spaces_cache.find_space(space['id'])
