@@ -2,7 +2,7 @@
 
 Welcome to the *Find Twitter Spaces* project, a dedicated search engine designed to enhance the accessibility and user experience of navigating Twitter Spaces. This project was built as a means to overcome the cumbersome search functionality of Twitter Spaces, providing users with a more streamlined, less spam-ridden alternative.
 
-![Screenshot](https://github.com/romankupkovic/twitterspacesvanilla/assets/16864877/85fa8e87-6a8d-44c1-9c9c-e61cef1dcbcf)
+![WhatsApp Image 2023-07-02 at 17 41 18](https://github.com/romankupkovic/twitterspacesvanilla/assets/16864877/5064bae8-491d-4a9f-8279-ac0815c860d7)
 
 ## :warning: Notice
 
